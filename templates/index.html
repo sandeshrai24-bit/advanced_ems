@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Corporate Resource Roster</h2>
+        <span class="badge bg-dark fs-6">Active Talent Count: {{ employees|length }}</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email Address</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emp in employees %}
+                <tr>
+                    <td>{{ emp.id }}</td>
+                    <td><strong>{{ emp.name }}</strong></td>
+                    <td>{{ emp.email }}</td>
+                    <td><span class="badge bg-secondary">{{ emp.department }}</span></td>
+                    <td>{{ emp.role }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_employee', id=emp.id) }}" class="btn btn-sm btn-outline-warning">Edit</a>
+                        <a href="{{ url_for('delete_employee', id=emp.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Purge archive entry?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card p-4">
+            <h4>Assign Shift Matrix</h4>
+            <hr>
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Employee</label>
+                    <select name="employee_id" class="form-select" required>
+                        {% for emp in employees %}
+                        <option value="{{ emp.id }}">{{ emp.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Calendar Date Target</label>
+                    <input type="date" name="shift_date" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Shift Duration Block</label>
+                    <select name="shift_time" class="form-select" required>
+                        <option value="Morning Base Shift (06:00 AM - 02:00 PM)">Morning Shift (06:00 AM - 02:00 PM)</option>
+                        <option value="Standard Operations Block (09:00 AM - 05:00 PM)">Standard Day (09:00 AM - 05:00 PM)</option>
+                        <option value="Late Contingency Shift (02:00 PM - 10:00 PM)">Evening Shift (02:00 PM - 10:00 PM)</option>
+                        <option value="Nocturnal Monitoring Run (10:00 PM - 06:00 AM)">Night Shift (10:00 PM - 06:00 AM)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Publish Roster</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card p-4">
+            <h4>Operational Shift Rotations</h4>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Associate Name</th>
+                            <th>Target Date</th>
+                            <th>Shift Window</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sched in schedules %}
+                        <tr>
+                            <td><strong>{{ sched.employee.name }}</strong><br><small class="text-muted">{{ sched.employee.department }}</small></td>
+                            <td><span class="badge bg-info text-dark">{{ sched.shift_date }}</span></td>
+                            <td>{{ sched.shift_time }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
